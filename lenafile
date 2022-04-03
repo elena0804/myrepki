@@ -1,0 +1,17 @@
+var replaceChain = (newBlocks) => {
+    if (isValidChain(newBlocks) && newBlocks.length > blockchain.length) {
+        console.log('Принятый блокчейн является валидным. Происходит замена текущего блокчейна на принятый');
+        blockchain = newBlocks;
+        broadcast(responseLatestMsg());
+    } else {
+        console.log('Принятый блокчейн не является валидным');
+    }
+};
+
+var generateNextBlock = (blockData) => {
+    var previousBlock = getLatestBlock();
+    var nextIndex = previousBlock.index + 1;
+    var nextTimestamp = new Date().getTime() / 1000;
+    var nextHash = calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
+    return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockData, nextHash);
+};
